@@ -1,11 +1,42 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h2>{% block title %}Home{% endblock title %}</h2>
+  <h3>{% block title %}Wprowadź swoje zapytanie: {% endblock title %}</h3>
 {% endblock header %}
 
 {% block content %}
   <p>
-    Conten block
+    <form id="generateAnswer" action="/api/generate_answer" method="post">
+      <textarea id="text" name="text" rows="4" cols="50">{{ message_value }}</textarea>
+      <br>
+      <input type="submit" value="Zatwierdź">
+    </form>
   </p>
+  <br> <br>
+  <label for="message">Odpowiedź:</label>
+  <br> <br>
+  <textarea id="result" rows="4" cols="50" readonly></textarea>
+    <script>
+      document.getElementById('generateAnswer').onsubmit = function(event) {
+          event.preventDefault(); // Prevent the form from submitting in the traditional way
+          var text = document.getElementById('text').value; // Corrected variable name to match textarea id
+          
+          // Make the AJAX request to the /api/generate_answer endpoint
+          fetch('/api/generate_answer', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({text: text}), // Ensure the property name matches what the server expects
+          })
+          .then(response => response.json())
+          .then(data => {
+              // Display the response in the textarea, corrected to match the textarea id for the result
+              document.getElementById('result').value = data.response; // Corrected to match the key in the JSON response
+          })
+          .catch((error) => {
+              console.error('Error:', error);
+          });
+      };
+  </script>
 {% endblock content %}
