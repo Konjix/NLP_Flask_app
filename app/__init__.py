@@ -1,6 +1,6 @@
 from flask import Flask
 
-from board import pages
+from app import pages
 from .endpoints import api
 
 
