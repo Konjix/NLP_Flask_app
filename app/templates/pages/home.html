@@ -18,21 +18,18 @@
   <textarea id="result" rows="4" cols="50" readonly></textarea>
     <script>
       document.getElementById('generateAnswer').onsubmit = function(event) {
-          event.preventDefault(); // Prevent the form from submitting in the traditional way
-          var text = document.getElementById('text').value; // Corrected variable name to match textarea id
-          
-          // Make the AJAX request to the /api/generate_answer endpoint
+          event.preventDefault();
+          var text = document.getElementById('text').value; 
           fetch('/api/generate_answer', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
               },
-              body: JSON.stringify({text: text}), // Ensure the property name matches what the server expects
+              body: JSON.stringify({text: text}),
           })
           .then(response => response.json())
           .then(data => {
-              // Display the response in the textarea, corrected to match the textarea id for the result
-              document.getElementById('result').value = data.response; // Corrected to match the key in the JSON response
+              document.getElementById('result').value = data.response;
           })
           .catch((error) => {
               console.error('Error:', error);

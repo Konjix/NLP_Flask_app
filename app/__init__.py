@@ -3,7 +3,7 @@ from flask import Flask
 from app import pages
 from .endpoints import api
 
-
+# Stworzenie aplikacji
 def create_app():
     app = Flask(__name__)
 
